@@ -9,16 +9,16 @@ public class AutonOpModeWall extends susBotOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        initOpMode();
         waitForStart();
 
         while (opModeIsActive()) {
+            tryDetectMotifAprilTag();
+            tryDetectGoalAprilTag();
 
             // TODO: Insert code for autonomous from this position
 
-            telemetry.addData("frontLeftDrive", frontLeftDrive.getCurrentPosition());
-            telemetry.addData("frontRightDrive", frontRightDrive.getCurrentPosition());
-            telemetry.addData("backLeftDrive", backLeftDrive.getCurrentPosition());
-            telemetry.addData("backRightDrive", backRightDrive.getCurrentPosition());
+            send_telemetry();
         }
     }
 }

@@ -12,10 +12,7 @@ public class TeleOpMode extends susBotOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        this.frontLeftDrive = hardwareMap.dcMotor.get("front_left_drive");
-        this.frontRightDrive = hardwareMap.dcMotor.get("front_right_drive");
-        this.backLeftDrive = hardwareMap.dcMotor.get("back_left_drive");
-        this.backRightDrive = hardwareMap.dcMotor.get("back_right_drive");
+        initOpMode();
 
         //TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
 
@@ -28,6 +25,9 @@ public class TeleOpMode extends susBotOpMode {
         follower.startTeleopDrive();
 
         while (opModeIsActive()) {
+            tryDetectMotifAprilTag();
+            tryDetectGoalAprilTag();
+
             follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x,
@@ -36,11 +36,7 @@ public class TeleOpMode extends susBotOpMode {
             );
             follower.update();
 
-            telemetry.addData("frontLeftDrive", frontLeftDrive.getCurrentPosition());
-            telemetry.addData("frontRightDrive", frontRightDrive.getCurrentPosition());
-            telemetry.addData("backLeftDrive", backLeftDrive.getCurrentPosition());
-            telemetry.addData("backRightDrive", backRightDrive.getCurrentPosition());
-            telemetry.update();
+            send_telemetry();
         }
     }
 }

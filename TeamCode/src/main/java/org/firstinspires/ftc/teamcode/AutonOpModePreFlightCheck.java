@@ -11,13 +11,16 @@ public class AutonOpModePreFlightCheck extends susBotOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        initOpMode();
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("frontLeftDrive", frontLeftDrive.getCurrentPosition());
-            telemetry.addData("frontRightDrive", frontRightDrive.getCurrentPosition());
-            telemetry.addData("backLeftDrive", backLeftDrive.getCurrentPosition());
-            telemetry.addData("backRightDrive", backRightDrive.getCurrentPosition());
+            tryDetectMotifAprilTag();
+            tryDetectGoalAprilTag();
+
+            // TODO: Insert code for autonomous from this position
+
+            send_telemetry();
         }
     }
 }

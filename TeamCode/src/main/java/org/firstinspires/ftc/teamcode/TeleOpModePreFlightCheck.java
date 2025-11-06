@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
 @TeleOp(name="Pre-Flight Check tele", group="Testing")
 public class TeleOpModePreFlightCheck extends susBotOpMode {
     public TeleOpModePreFlightCheck() {
@@ -46,27 +50,20 @@ public class TeleOpModePreFlightCheck extends susBotOpMode {
         backRightDrive.setPower(backRightDrive_power);
     }
 
-    public void send_telemetry() {
-        telemetry.addData("frontLeftDrive", frontLeftDrive.getCurrentPosition());
-        telemetry.addData("frontRightDrive", frontRightDrive.getCurrentPosition());
-        telemetry.addData("backLeftDrive", backLeftDrive.getCurrentPosition());
-        telemetry.addData("backRightDrive", backRightDrive.getCurrentPosition());
-        telemetry.update();
-    }
-
     @Override
     public void runOpMode() throws InterruptedException {
-        this.frontLeftDrive = hardwareMap.dcMotor.get("front_left_drive");
-        this.frontRightDrive = hardwareMap.dcMotor.get("front_right_drive");
-        this.backLeftDrive = hardwareMap.dcMotor.get("back_left_drive");
-        this.backRightDrive = hardwareMap.dcMotor.get("back_right_drive");
 
+        initOpMode();
         waitForStart();
 
         while (opModeIsActive()) {
+            tryDetectMotifAprilTag();
+            tryDetectGoalAprilTag();
+
             clearState();
             set();
             update();
+
             send_telemetry();
         }
     }
